@@ -7,6 +7,14 @@ webview = {}
 
 -- Table of functions which are called on new webview widgets.
 webview.init_funcs = {
+    -- Set web storage path
+    set_storage_path = function (view, w)
+        local p = globals.storage_path
+        if p and type(p) == "string" then
+            view.html5_local_storage_database_path = p
+        end
+    end,
+
     -- Set useragent
     set_useragent = function (view, w)
         view.user_agent = globals.useragent

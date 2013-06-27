@@ -86,4 +86,6 @@ domain_props = { --[[
     }, ]]
 }
 
+globals.storage_path = (os.getenv "HOME") .. "/.cache/luakit/storage"
+
 -- vim: et:sw=4:ts=8:sts=4:tw=80

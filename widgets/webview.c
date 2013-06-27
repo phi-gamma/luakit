@@ -99,6 +99,7 @@ property_t webview_settings_properties[] = {
   { L_TK_ENABLE_XSS_AUDITOR,                        "enable-xss-auditor",                        BOOL,  TRUE },
   { L_TK_ENFORCE_96_DPI,                            "enforce-96-dpi",                            BOOL,  TRUE },
   { L_TK_FANTASY_FONT_FAMILY,                       "fantasy-font-family",                       CHAR,  TRUE },
+  { L_TK_HTML5_LOCAL_STORAGE_DATABASE_PATH,         "html5_local_storage_database_path",         CHAR,  TRUE },
   { L_TK_JAVASCRIPT_CAN_ACCESS_CLIPBOARD,           "javascript-can-access-clipboard",           BOOL,  TRUE },
   { L_TK_JAVASCRIPT_CAN_OPEN_WINDOWS_AUTOMATICALLY, "javascript-can-open-windows-automatically", BOOL,  TRUE },
   { L_TK_MINIMUM_FONT_SIZE,                         "minimum-font-size",                         INT,   TRUE },
