@@ -29,6 +29,49 @@
 
 #include "common/util.h"
 
+/** compatibility with version 5.2 */
+#if LUA_VERSION_NUM > 501
+static int
+luaL_typerror (lua_State *L, int narg, const char *tname) {
+    const char *msg = lua_pushfstring(L, "%s expected, got %s",
+                                      tname, luaL_typename(L, narg));
+    return luaL_argerror(L, narg, msg);
+}
+
+#undef luaL_reg
+#define luaL_reg                luaL_Reg
+
+#undef luaL_register
+#define luaL_register(L,n,f) \
+    { if ((n) == NULL) luaL_setfuncs(L,f,0); else luaL_newlib(L,f); }
+
+#undef lua_objlen
+#define lua_objlen              lua_rawlen
+
+#undef lua_getfenv
+#define lua_getfenv             lua_getuservalue
+#undef lua_setfenv
+#define lua_setfenv             lua_setuservalue
+
+#endif
+
+static inline void
+luaH_registerlib(lua_State *L, const char *libname, const luaL_Reg *l) {
+#if LUA_VERSION_NUM >= 502
+    if (libname)
+    {
+        lua_newtable(L);
+        luaL_setfuncs(L, l, 0);
+        lua_pushvalue(L, -1);
+        lua_setglobal(L, libname);
+    }
+    else
+        luaL_setfuncs(L, l, 0);
+#else
+    luaL_register(L, libname, l);
+#endif
+}
+
 /** Lua function to call on dofuction() error */
 lua_CFunction lualib_dofunction_on_error;
 

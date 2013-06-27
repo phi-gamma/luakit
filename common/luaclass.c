@@ -106,8 +106,9 @@ luaH_openlib(lua_State *L, const gchar *name, const struct luaL_reg methods[],
     lua_pushvalue(L, -1);           /* dup metatable                      2 */
     lua_setfield(L, -2, "__index"); /* metatable.__index = metatable      1 */
 
-    luaL_register(L, NULL, meta);                                      /* 1 */
-    luaL_register(L, name, methods);                                   /* 2 */
+    luaH_registerlib(L, NULL, meta);                                   /* 1 */
+    luaH_registerlib(L, name, methods);                                /* 2 */
+
     lua_pushvalue(L, -1);           /* dup self as metatable              3 */
     lua_setmetatable(L, -2);        /* set self as metatable              2 */
     lua_pop(L, 2);
@@ -152,10 +153,10 @@ luaH_class_setup(lua_State *L, lua_class_t *class,
     lua_pushvalue(L, -1);           /* dup metatable                      2 */
     lua_setfield(L, -2, "__index"); /* metatable.__index = metatable      1 */
 
-    luaL_register(L, NULL, meta);                                      /* 1 */
+    luaH_registerlib(L, NULL, meta);                                      /* 1 */
 
     if (methods) {
-        luaL_register(L, name, methods);                               /* 2 */
+        luaH_registerlib(L, name, methods);                               /* 2 */
         lua_pushvalue(L, -1);           /* dup self as metatable          3 */
         lua_setmetatable(L, -2);        /* set self as metatable          2 */
         lua_pop(L, 2);

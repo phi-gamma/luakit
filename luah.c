@@ -238,24 +238,50 @@ luaH_fixups(lua_State *L)
     lua_pushcfunction(L, &luaH_abspath);
     lua_setfield(L, -2, "abspath");
     lua_pop(L, 1);
+    /* Lua 5.2 does not know LUA_GLOBALSINDEX,
+     * so we use lua_setglobal for the same effect */
     /* replace next */
+#if LUA_VERSION_NUM <= 501
     lua_pushliteral(L, "next");
+#endif
     lua_pushcfunction(L, luaHe_next);
+#if LUA_VERSION_NUM <= 501
     lua_settable(L, LUA_GLOBALSINDEX);
+#else
+    lua_setglobal(L, "next");
+#endif
     /* replace pairs */
+#if LUA_VERSION_NUM <= 501
     lua_pushliteral(L, "pairs");
+#endif
     lua_pushcfunction(L, luaHe_next);
     lua_pushcclosure(L, luaHe_pairs, 1); /* pairs get next as upvalue */
+#if LUA_VERSION_NUM <= 501
     lua_settable(L, LUA_GLOBALSINDEX);
+#else
+    lua_setglobal(L, "pairs");
+#endif
     /* replace ipairs */
+#if LUA_VERSION_NUM <= 501
     lua_pushliteral(L, "ipairs");
+#endif
     lua_pushcfunction(L, luaH_ipairs_aux);
     lua_pushcclosure(L, luaHe_ipairs, 1);
+#if LUA_VERSION_NUM <= 501
     lua_settable(L, LUA_GLOBALSINDEX);
+#else
+    lua_setglobal(L, "ipairs");
+#endif
     /* replace type */
+#if LUA_VERSION_NUM <= 501
     lua_pushliteral(L, "type");
+#endif
     lua_pushcfunction(L, luaHe_type);
+#if LUA_VERSION_NUM <= 501
     lua_settable(L, LUA_GLOBALSINDEX);
+#else
+    lua_setglobal(L, "type");
+#endif
 }
 
 static gint
